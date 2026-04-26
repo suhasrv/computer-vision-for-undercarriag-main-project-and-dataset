@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Lens | Precision Underbody Inspection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;800&amp;family=Inter:wght@300;400;600;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#f8fafe",
+                    "on-tertiary-fixed-variant": "#43474a",
+                    "surface-tint": "#00dce5",
+                    "surface-variant": "#353534",
+                    "on-secondary-fixed-variant": "#454749",
+                    "surface-container-high": "#2a2a2a",
+                    "error": "#ffb4ab",
+                    "inverse-on-surface": "#313030",
+                    "secondary-fixed": "#e2e2e5",
+                    "tertiary-fixed": "#e0e3e6",
+                    "on-tertiary-fixed": "#181c1f",
+                    "error-container": "#93000a",
+                    "outline": "#849495",
+                    "surface-container-lowest": "#0e0e0e",
+                    "outline-variant": "#3a494a",
+                    "inverse-surface": "#e5e2e1",
+                    "background": "#050505",
+                    "secondary-container": "#454749",
+                    "primary-fixed-dim": "#00dce5",
+                    "on-surface": "#e5e2e1",
+                    "primary-container": "#00f5ff",
+                    "on-error": "#690005",
+                    "primary-fixed": "#63f7ff",
+                    "surface-container-highest": "#353534",
+                    "on-error-container": "#ffdad6",
+                    "secondary-fixed-dim": "#c6c6c9",
+                    "tertiary-fixed-dim": "#c4c7ca",
+                    "tertiary-container": "#dbdee2",
+                    "on-tertiary-container": "#5e6265",
+                    "secondary": "#c6c6c9",
+                    "on-primary-container": "#006c71",
+                    "inverse-primary": "#00696e",
+                    "on-secondary-fixed": "#1a1c1e",
+                    "on-secondary-container": "#b4b5b7",
+                    "on-surface-variant": "#b9caca",
+                    "on-primary-fixed-variant": "#004f53",
+                    "on-background": "#e5e2e1",
+                    "on-secondary": "#2f3133",
+                    "on-tertiary": "#2d3134",
+                    "on-primary-fixed": "#002021",
+                    "on-primary": "#003739",
+                    "primary": "#e9feff",
+                    "surface": "#050505",
+                    "surface-bright": "#3a3939",
+                    "surface-dim": "#131313",
+                    "surface-container": "#121212",
+                    "surface-container-low": "#0a0a0a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Base Reveal State */
+        .reveal {
+            opacity: 0;
+            transform: translateY(60px);
+            transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                        transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            will-change: transform, opacity;
+        }
+
+        /* Active In-View State */
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Exit State (When scrolling back up/out of view) */
+        .reveal.exit-up {
+            opacity: 0;
+            transform: translateY(-60px);
+        }
+
+        .reveal.exit-down {
+            opacity: 0;
+            transform: translateY(60px);
+        }
+
+        .parallax-bg {
+            transform: scale(1.1);
+            transition: transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        .glass-nav {
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: saturate(180%) blur(20px);
+        }
+        .text-glow {
+            text-shadow: 0 0 30px rgba(0, 220, 229, 0.4);
+        }
+        
+        /* Stagger Delays */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body selection:bg-surface-tint selection:text-on-primary-fixed overflow-x-hidden">
+<nav class="fixed top-0 w-full z-[100] glass-nav border-b border-white/5">
+    <div class="flex justify-between items-center px-6 md:px-12 py-5 max-w-[1440px] mx-auto font-headline">
+        <a href="home.html" class="text-xl font-extrabold tracking-tighter text-primary">OBSIDIAN LENS</a>
+        <div class="hidden md:flex gap-6 items-center">
+            <a class="text-sm font-semibold text-surface-tint tracking-wide uppercase hover:opacity-80 transition-opacity" href="home.html">Home</a>
+            <a class="text-sm font-semibold text-secondary hover:text-primary transition-colors tracking-wide uppercase" href="architecture.html">Architecture</a>
+            <a class="text-sm font-semibold text-secondary hover:text-primary transition-colors tracking-wide uppercase" href="Metrics.html">Metrics</a>
+            <a class="text-sm font-semibold text-secondary hover:text-primary transition-colors tracking-wide uppercase" href="impact.html">Impact</a>
+        </div>
+        <a href="detection.html" class="bg-primary text-background px-6 py-2 rounded-full text-sm font-bold hover:scale-105 transition-all">Get Access</a>
+    </div>
+</nav>
+<main>
+<!-- Section 1: Hero -->
+<section class="relative h-[100vh] flex items-center justify-center overflow-hidden" id="hero">
+<div class="absolute inset-0 z-0">
+<img alt="EV chassis" class="w-full h-full object-cover opacity-50 parallax-bg scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqMiSFfAG8WXrWa4QSWDrji35n3t9e5lqGqvcUjN9SvZXAx37zTWUXHvtYm3xGqe968d3oICyYTwr33nkf3uUiV8Qcc4GMywKASHkGdy2PsJ6ie3r3iuqqXSj6wrI_Urc44GoRWIVMV8BVqOVMxCvhu1abE6jYaJhEwVfxPL_p2AjaVdFgJUIqhrRMeZIkUlMvaPIDFlrMvEGJcSVMcWYY9gU7qlb-vy1hZVYwxRtTlPLg6S4Ah4y14_07IOXc83JNHuqAdpS9GL8X"/>
+<div class="absolute inset-0 bg-gradient-to-b from-background/40 via-background/20 to-background"></div>
+</div>
+<div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+<span class="reveal text-surface-tint font-headline font-bold tracking-[0.4em] uppercase text-[10px] mb-8 block">Automated EV Undercarriage Inspection</span>
+<h1 class="reveal delay-100 text-7xl md:text-9xl font-headline font-extrabold tracking-tighter text-primary mb-10 leading-[0.9] text-glow">
+                Precision Beneath <br/>the Surface.
+            </h1>
+<p class="reveal delay-200 text-secondary max-w-xl mx-auto text-lg md:text-xl font-light mb-12 leading-relaxed opacity-80">
+                Transforming slow, error-prone manual checks with pixel-precise YOLOv8 instance segmentation.
+            </p>
+<div class="reveal delay-300 flex flex-col md:flex-row gap-6 justify-center items-center">
+<button class="bg-surface-tint text-background px-10 py-4 rounded-full font-bold text-lg hover:brightness-110 transition-all shadow-[0_0_40px_rgba(0,245,255,0.2)]">
+                    Launch Dashboard
+                </button>
+<button class="text-primary px-10 py-4 font-bold text-lg flex items-center gap-2 group">
+                    Watch Scan <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">play_circle</span>
+</button>
+</div>
+</div>
+<div class="absolute bottom-10 left-1/2 -translate-x-1/2 text-center opacity-40">
+<span class="material-symbols-outlined animate-bounce text-surface-tint">expand_more</span>
+</div>
+</section>
+<!-- Section 2: Problem/Solution -->
+<section class="relative min-h-screen bg-surface flex items-center py-24 px-6 md:px-12" id="precision">
+<div class="max-w-[1440px] mx-auto grid lg:grid-cols-2 gap-20 items-center">
+<div class="space-y-12">
+<div class="reveal inline-block px-4 py-1 rounded-full border border-surface-tint/30 text-surface-tint text-[10px] font-bold uppercase tracking-widest">Efficiency Gap</div>
+<h2 class="reveal delay-100 text-5xl md:text-7xl font-headline font-extrabold text-primary leading-tight tracking-tighter">Manual is slow.<br/><span class="text-surface-tint">AI is instant.</span></h2>
+<div class="reveal delay-200 space-y-6 text-secondary text-xl leading-relaxed max-w-lg font-light">
+<p>Traditional methods require vehicle lift time and trained personnel—a bottleneck in high‑volume maintenance fleets.</p>
+<p>Subtle defects like corrosion and micro-dents compromise battery protection layers, leading to catastrophic failures.</p>
+</div>
+<div class="reveal delay-300 p-8 bg-white/5 border border-white/10 rounded-full flex gap-6 items-center max-w-md">
+<span class="material-symbols-outlined text-surface-tint text-4xl">speed</span>
+<p class="text-sm font-medium">Reduces inspection time from 20 minutes to under 90 seconds per vehicle.</p>
+</div>
+</div>
+<div class="relative">
+<div class="reveal delay-200 aspect-[4/3] rounded-full overflow-hidden border border-white/5 shadow-2xl">
+<img alt="Defect detection" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgg1h3Wi6Ibt8-SlMUt3dEhWhlIM1r_Jodxx60aC5PHc38DIy8DzaAMTVtRpVS6wJ0DXwoOHThrz-cW4s1StRZJ0n37PW77BpLqsimrEr9Zvvrc9RVH_OTdlO5wmcxqapFQE5wjExJ9g2Nipe_FglBk-S2Z9xs_xhAf98oFe13W936EeaC-TxNjl69SDTlL-LbARhHbuFXZpbbuA8NpzXe3ieGuGftK3tseY6rWLQA5Gee_ZgOeDk3AUc6I83nj48h5zj0LVsuYw1D"/>
+</div>
+<div class="reveal delay-400 absolute -bottom-8 -left-8 bg-surface-container p-6 rounded-full border border-white/10 backdrop-blur-xl">
+<div class="flex items-center gap-4">
+<div class="w-3 h-3 rounded-full bg-error animate-pulse"></div>
+<span class="font-bold text-sm tracking-widest uppercase">Critical Defect: Corrosion</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Architecture -->
+<section class="min-h-screen bg-black py-32 px-6 md:px-12" id="architecture">
+<div class="max-w-[1440px] mx-auto">
+<div class="mb-24 text-center">
+<span class="reveal text-surface-tint font-bold tracking-[0.4em] uppercase text-[10px]">Technical Stack</span>
+<h2 class="reveal delay-100 text-5xl md:text-7xl font-headline font-extrabold text-primary mt-4 tracking-tighter">Neural Architecture</h2>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Tech 1 -->
+<div class="reveal delay-100 p-12 bg-white/[0.03] border border-white/5 rounded-full hover:bg-white/[0.05] transition-all group">
+<div class="mb-8 w-16 h-16 rounded-2xl bg-surface-tint/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-tint text-3xl">psychology</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 group-hover:text-surface-tint transition-colors">YOLOv8 Engine</h3>
+<p class="text-secondary font-light leading-relaxed">Instance segmentation model for pixel-precise detection of dents and corrosion masks.</p>
+</div>
+<!-- Tech 2 -->
+<div class="reveal delay-200 p-12 bg-white/[0.03] border border-white/5 rounded-full hover:bg-white/[0.05] transition-all group">
+<div class="mb-8 w-16 h-16 rounded-2xl bg-surface-tint/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-tint text-3xl">bolt</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 group-hover:text-surface-tint transition-colors">FastAPI</h3>
+<p class="text-secondary font-light leading-relaxed">High-performance backend serving real-time predictions with minimal latency overhead.</p>
+</div>
+<!-- Tech 3 -->
+<div class="reveal delay-300 p-12 bg-white/[0.03] border border-white/5 rounded-full hover:bg-white/[0.05] transition-all group">
+<div class="mb-8 w-16 h-16 rounded-2xl bg-surface-tint/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-tint text-3xl">cloud_done</span>
+</div>
+<h3 class="text-2xl font-bold text-primary mb-4 group-hover:text-surface-tint transition-colors">Supabase</h3>
+<p class="text-secondary font-light leading-relaxed">Centralized storage for images, metadata, and full traceability across your fleet.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Metrics -->
+<section class="min-h-screen flex items-center bg-surface py-32 px-6 md:px-12" id="metrics">
+<div class="max-w-[1440px] mx-auto w-full">
+<div class="grid lg:grid-cols-4 gap-12 items-end">
+<div class="lg:col-span-2">
+<span class="reveal text-surface-tint font-bold tracking-[0.4em] uppercase text-[10px]">Model Performance</span>
+<h2 class="reveal delay-100 text-6xl md:text-8xl font-headline font-extrabold text-primary mt-6 tracking-tighter leading-[0.8]">Validation Benchmarks</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:col-span-2 gap-8 w-full">
+<div class="reveal delay-100 p-10 border-l border-white/10">
+<div class="text-[10px] text-secondary uppercase tracking-[0.3em] mb-4">mAP @ 50</div>
+<div class="text-6xl font-headline font-extrabold text-surface-tint">0.5049</div>
+</div>
+<div class="reveal delay-200 p-10 border-l border-white/10">
+<div class="text-[10px] text-secondary uppercase tracking-[0.3em] mb-4">Precision</div>
+<div class="text-6xl font-headline font-extrabold text-surface-tint">0.6039</div>
+</div>
+<div class="reveal delay-300 p-10 border-l border-white/10">
+<div class="text-[10px] text-secondary uppercase tracking-[0.3em] mb-4">Recall</div>
+<div class="text-6xl font-headline font-extrabold text-surface-tint">0.4932</div>
+</div>
+<div class="reveal delay-400 p-10 border-l border-white/10">
+<div class="text-[10px] text-secondary uppercase tracking-[0.3em] mb-4">Corrosion mAP</div>
+<div class="text-6xl font-headline font-extrabold text-surface-tint">0.5716</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Impact -->
+<section class="relative min-h-screen bg-black flex items-center py-32 px-6 md:px-12 overflow-hidden" id="impact">
+<div class="reveal absolute right-0 top-0 w-1/2 h-full opacity-20 hidden lg:block">
+<img class="w-full h-full object-cover grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAn4I-j-1etGd6SV8dBrptngd75_NOrzu1Ipt3GoWHWxq4_Uyb5CenBvhCpz6Nx_qP-QcGLr0lsj5sAxKOK9-cRP17awSa2GgidIqfX9vWIqUY0zcGCnGot_tbmPQXihKHA2tECprPcSnIyLDFajg31s8Z0K83SRXHVhoY0jSbw3qT8hywjqkq1KRsU1ak6cDMXO0kQJDpud4jIDtGXGs177XuLRtIQ-U9bvGHzN3clr-BByjmjL2fc0LFESM3oVELzLQ23__FGOqPg"/>
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-black"></div>
+</div>
+<div class="max-w-[1440px] mx-auto w-full relative z-10">
+<div class="max-w-2xl">
+<span class="reveal text-surface-tint font-bold tracking-[0.4em] uppercase text-[10px]">Real-World Impact</span>
+<h2 class="reveal delay-100 text-5xl md:text-7xl font-headline font-extrabold text-primary mt-6 tracking-tighter leading-tight">Digital Twin Visibility.</h2>
+<p class="reveal delay-200 text-secondary text-xl mt-8 leading-relaxed font-light">
+                    AI camera vision scans the entire underbody in under 90 seconds, maintaining a 3D spatial model of every vehicle. Predict failure before it happens.
+                </p>
+<div class="grid md:grid-cols-2 gap-8 mt-16">
+<div class="reveal delay-300 flex items-start gap-4">
+<span class="material-symbols-outlined text-surface-tint">check_circle</span>
+<div>
+<h4 class="text-primary font-bold">Unplanned Downtime</h4>
+<p class="text-secondary text-sm">Reduced by over 40% through automated diagnostics.</p>
+</div>
+</div>
+<div class="reveal delay-400 flex items-start gap-4">
+<span class="material-symbols-outlined text-surface-tint">check_circle</span>
+<div>
+<h4 class="text-primary font-bold">Spatial Tagging</h4>
+<p class="text-secondary text-sm">Automated severity scoring and defect location tracking.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: CTA -->
+<section class="h-[80vh] flex items-center justify-center bg-background px-6">
+<div class="text-center">
+<h2 class="reveal text-5xl md:text-8xl font-headline font-extrabold text-primary mb-12 tracking-tighter">Ready for the Future?</h2>
+<div class="reveal delay-100 flex flex-col md:flex-row gap-6 justify-center">
+<button class="bg-primary text-background px-12 py-5 rounded-full font-bold text-xl hover:scale-105 transition-all">
+                    Request Full Demo
+                </button>
+<button class="border border-white/20 text-primary px-12 py-5 rounded-full font-bold text-xl hover:bg-white/5 transition-all">
+                    Documentation
+                </button>
+</div>
+<p class="reveal delay-200 mt-12 text-secondary text-sm uppercase tracking-widest opacity-50 font-bold">Integrated with SAP &amp; Enterprise Fleet Hubs</p>
+</div>
+</section>
+</main>
+<footer class="bg-black border-t border-white/5 py-20 px-6 md:px-12">
+<div class="max-w-[1440px] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-10">
+<div class="reveal">
+<div class="text-2xl font-extrabold tracking-tighter text-primary">OBSIDIAN LENS</div>
+<p class="text-secondary text-xs uppercase tracking-widest mt-2 opacity-40 font-bold">Precision Vision Systems</p>
+</div>
+<div class="reveal delay-100 flex flex-wrap gap-10 text-xs font-bold uppercase tracking-widest text-secondary/60">
+<a class="hover:text-surface-tint transition-colors" href="#">GitHub</a>
+<a class="hover:text-surface-tint transition-colors" href="#">Architecture</a>
+<a class="hover:text-surface-tint transition-colors" href="#">Status</a>
+<a class="hover:text-surface-tint transition-colors" href="#">Privacy</a>
+</div>
+<div class="reveal delay-200 text-[10px] uppercase tracking-widest text-secondary/30 font-bold">
+            © 2025 OBSIDIAN LENS. ALL RIGHTS RESERVED.
+        </div>
+</div>
+</footer>
+<script>
+    // Advanced Intersection Observer for Bidirectional Animations
+    let lastScrollY = window.scrollY;
+
+    const revealCallback = (entries, observer) => {
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY > lastScrollY;
+        
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // When element enters view (either from top or bottom)
+                entry.target.classList.add('active');
+                entry.target.classList.remove('exit-up', 'exit-down');
+            } else {
+                // When element leaves view
+                entry.target.classList.remove('active');
+                
+                if (entry.boundingClientRect.top < 0) {
+                    // Left through the top
+                    entry.target.classList.add('exit-up');
+                    entry.target.classList.remove('exit-down');
+                } else {
+                    // Left through the bottom
+                    entry.target.classList.add('exit-down');
+                    entry.target.classList.remove('exit-up');
+                }
+            }
+        });
+        
+        lastScrollY = currentScrollY;
+    };
+
+    const options = {
+        threshold: 0.15,
+        rootMargin: '-5% 0px -5% 0px'
+    };
+
+    const observer = new IntersectionObserver(revealCallback, options);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Refined parallax effect on scroll
+    window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const parallaxItems = document.querySelectorAll('.parallax-bg');
+        
+        parallaxItems.forEach(item => {
+            let speed = 0.2; // Adjusted speed for smoother feel
+            item.style.transform = `translateY(${scrolled * speed}px) scale(1.1)`;
+        });
+
+        // Sticky nav shadow behavior
+        const nav = document.querySelector('nav');
+        if (scrolled > 50) {
+            nav.classList.add('shadow-2xl');
+        } else {
+            nav.classList.remove('shadow-2xl');
+        }
+    });
+
+    // Handle initial state on load
+    window.addEventListener('load', () => {
+        lastScrollY = window.scrollY;
+        // Trigger observer for elements already in viewport
+        document.querySelectorAll('.reveal').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('active');
+            }
+        });
+    });
+</script>
+</body></html>

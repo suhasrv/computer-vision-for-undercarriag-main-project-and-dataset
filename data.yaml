@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 2
+names: ['corrosion', 'dents']
+
+roboflow:
+  workspace: suhass-workspace-y4ouv
+  project: computer-vision-for-undercarriag-main-dataset
+  version: 2
+  license: CC BY 4.0
+  url: https://app.roboflow.com/suhass-workspace-y4ouv/computer-vision-for-undercarriag-main-dataset/2

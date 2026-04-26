@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Architecture | Obsidian Lens</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-high": "#2a2a2a",
+                      "on-tertiary-fixed": "#181c1f",
+                      "tertiary-fixed": "#e0e3e6",
+                      "error-container": "#93000a",
+                      "primary-container": "#00f5ff",
+                      "on-secondary": "#2f3133",
+                      "surface-container-low": "#1c1b1b",
+                      "on-primary-fixed": "#002021",
+                      "surface-container-highest": "#353534",
+                      "surface": "#131313",
+                      "inverse-primary": "#00696e",
+                      "surface-dim": "#131313",
+                      "surface-bright": "#3a3939",
+                      "on-secondary-fixed-variant": "#454749",
+                      "secondary-fixed-dim": "#c6c6c9",
+                      "on-tertiary-container": "#5e6265",
+                      "on-primary-fixed-variant": "#004f53",
+                      "on-primary-container": "#006c71",
+                      "surface-container": "#201f1f",
+                      "on-error-container": "#ffdad6",
+                      "outline": "#849495",
+                      "secondary-fixed": "#e2e2e5",
+                      "inverse-on-surface": "#313030",
+                      "on-tertiary": "#2d3134",
+                      "on-surface": "#e5e2e1",
+                      "surface-variant": "#353534",
+                      "outline-variant": "#3a494a",
+                      "primary-fixed": "#63f7ff",
+                      "on-secondary-container": "#b4b5b7",
+                      "tertiary-container": "#dbdee2",
+                      "secondary-container": "#454749",
+                      "background": "#131313",
+                      "surface-tint": "#00dce5",
+                      "on-primary": "#003739",
+                      "on-secondary-fixed": "#1a1c1e",
+                      "tertiary-fixed-dim": "#c4c7ca",
+                      "primary": "#e9feff",
+                      "on-error": "#690005",
+                      "surface-container-lowest": "#0e0e0e",
+                      "inverse-surface": "#e5e2e1",
+                      "on-surface-variant": "#b9caca",
+                      "error": "#ffb4ab",
+                      "primary-fixed-dim": "#00dce5",
+                      "tertiary": "#f8fafe",
+                      "secondary": "#c6c6c9",
+                      "on-background": "#e5e2e1",
+                      "on-tertiary-fixed-variant": "#43474a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Inter"],
+                      "label": ["Inter"]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.6);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Scroll Animation Styles */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+            will-change: transform, opacity;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Specific delay for children to create staggered effect */
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/60 backdrop-blur-3xl border-b border-white/10 shadow-[0_0_50px_-12px_rgba(0,220,229,0.1)]">
+    <div class="flex justify-between items-center px-8 h-16 max-w-full">
+        <a href="home.html" class="text-xl font-bold tracking-tighter text-[#e9feff] font-headline">Obsidian Lens</a>
+        <div class="hidden md:flex items-center gap-6 font-headline tracking-tight text-sm">
+            <a href="home.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Home</a>
+            <a href="architecture.html" class="text-[#00dce5] border-b-2 border-[#00dce5] pb-1">Architecture</a>
+            <a href="Metrics.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Metrics</a>
+            <a href="impact.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Impact</a>
+        </div>
+        <div class="flex items-center gap-6">
+            <a href="detection.html" class="bg-[#00dce5] text-[#002021] px-4 py-1.5 rounded-lg text-sm font-bold hover:opacity-80 transition-all active:scale-95">Get Access</a>
+        </div>
+    </div>
+</nav>
+<main class="pt-16">
+<!-- Hero Header -->
+<section class="relative min-h-[819px] flex flex-col items-center justify-center overflow-hidden px-6">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[140%] h-[140%] bg-[radial-gradient(circle_at_center,rgba(0,220,229,0.08)_0%,transparent_60%)]"></div>
+<img class="w-full h-full object-cover opacity-20 grayscale brightness-50" data-alt="abstract close-up of high-tech server circuit board with neon blue fiber optic lights and dark metallic surfaces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOCLjJjnJuule7eri8-TibCx5qFVv_imDzY5he3MV0g8n3y1go33R0DK6aOWIIFFNEvfmf5EmI-6hKASgSdJp_066LkZmIB7mGz5AmC8mRUfh4KSDeWCgYecDf1f3K-6rKzusBG3QDbKGZCdLY3XogmsmqzDOeUInmaQQnurzk2hZDfExgDSBvofUeLvHXI7cNWz-0aX6Kwmt7JNy0mxBa3h7iWKBcuYslQGw3AuDGQXb4WblrpHA4mlC2xdsMk4fnLmu_3UCfoBfi" style=""/>
+</div>
+<div class="relative z-10 text-center max-w-4xl reveal active">
+<h1 class="text-7xl md:text-9xl font-extrabold font-headline tracking-tighter text-primary mb-6 leading-[0.9]" style="">
+                    Neural<br/>Architecture
+                </h1>
+<p class="text-lg md:text-xl font-body text-on-surface-variant max-w-2xl mx-auto leading-relaxed" style="">
+                    A multi-layered high-precision optical instrumentation framework for automated undercarriage defect detection and structural integrity verification.
+                </p>
+<div class="mt-12 flex flex-col items-center gap-4 reveal reveal-delay-2">
+<span class="text-[10px] tracking-[0.3em] uppercase text-primary-fixed-dim font-bold" style="">Scroll to inspect layers</span>
+<div class="w-px h-16 bg-gradient-to-b from-primary-fixed-dim to-transparent"></div>
+</div>
+</div>
+</section>
+<!-- The Data Pipeline -->
+<section class="py-32 px-8 bg-surface-container-low overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 reveal">
+<span class="text-sm font-bold text-primary-fixed-dim tracking-widest uppercase font-headline" style="">End-to-End</span>
+<h2 class="text-4xl md:text-5xl font-extrabold font-headline text-on-surface mt-2 tracking-tight" style="">The Data Pipeline</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+<!-- Connector line behind (desktop only) -->
+<div class="hidden md:block absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-outline-variant to-transparent -translate-y-1/2"></div>
+<!-- Step 1: Raw Image -->
+<div class="relative group bg-surface-container-high rounded-xl p-8 border border-white/5 hover:border-primary-fixed-dim/30 transition-all duration-500 reveal reveal-delay-1">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mb-6 shadow-2xl">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl" style="">photo_camera</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-2" style="">Raw Image</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed" style="">4K 120FPS input capture via optical sensor array.</p>
+</div>
+</div>
+<!-- Step 2: YOLO Processing -->
+<div class="relative group bg-surface-container-highest rounded-xl p-8 border border-primary-fixed-dim/20 shadow-[0_0_30px_-10px_rgba(0,220,229,0.2)] reveal reveal-delay-2">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" style="">psychology</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary-fixed-dim mb-2" style="">FastAPI + YOLOv8</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed" style="">Real-time segmentation and defect mask generation.</p>
+</div>
+</div>
+<!-- Step 3: Supabase Storage -->
+<div class="relative group bg-surface-container-high rounded-xl p-8 border border-white/5 hover:border-primary-fixed-dim/30 transition-all duration-500 reveal reveal-delay-3">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl" style="">database</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-2" style="">Supabase</h3>
+<h4 class="text-[10px] text-primary-fixed-dim/60 tracking-widest uppercase mb-2" style="">Relational Storage</h4>
+<p class="text-xs text-on-surface-variant leading-relaxed" style="">Persistent state and analytical metadata archiving.</p>
+</div>
+</div>
+<!-- Step 4: JSON Output -->
+<div class="relative group bg-surface-container-high rounded-xl p-8 border border-white/5 hover:border-primary-fixed-dim/30 transition-all duration-500 reveal reveal-delay-4">
+<div class="flex flex-col items-center text-center">
+<div class="w-16 h-16 bg-surface-container-highest rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl" style="">terminal</span>
+</div>
+<h3 class="font-headline font-bold text-xl text-primary mb-2" style="">JSON Report</h3>
+<p class="text-xs text-on-surface-variant leading-relaxed" style="">High-fidelity structured output for downstream logic.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Architecture Layers -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-4 sticky top-32 reveal">
+<h2 class="text-5xl font-black font-headline text-on-surface tracking-tighter leading-none mb-6" style="">Architecture<br/>Layers</h2>
+<p class="text-on-surface-variant font-body" style="">The structural hierarchy of the Obsidian Lens system, categorized by operational domain.</p>
+<div class="mt-12 p-6 rounded-xl bg-surface-container-low border border-white/5 reveal reveal-delay-2">
+<h4 class="text-xs font-bold uppercase tracking-widest text-primary-fixed-dim mb-4" style="">Total System Surface</h4>
+<div class="text-3xl font-black font-headline text-on-surface" style="">99.98%</div>
+<p class="text-[10px] text-on-secondary-fixed-variant mt-1 uppercase tracking-tighter" style="">Availability Index</p>
+</div>
+</div>
+<div class="lg:col-span-8 grid grid-cols-1 gap-4">
+<!-- Acquisition -->
+<div class="p-8 rounded-full bg-surface-container-low border border-white/5 flex items-center gap-8 hover:bg-surface-container transition-all group reveal">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="">sensors</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline font-bold text-lg text-primary" style="">Data Acquisition</h3>
+<p class="text-sm text-on-surface-variant" style="">Real-time imaging and sensor telemetry streams.</p>
+</div>
+<span class="text-[10px] font-bold text-outline-variant font-mono uppercase tracking-widest" style="">LAYER 01</span>
+</div>
+<!-- Processing -->
+<div class="p-8 rounded-full bg-surface-container-low border border-white/5 flex items-center gap-8 hover:bg-surface-container transition-all group reveal reveal-delay-1">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="">memory</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline font-bold text-lg text-primary" style="">Processing</h3>
+<p class="text-sm text-on-surface-variant" style="">Inference engines, defect segmentation, and classification.</p>
+</div>
+<span class="text-[10px] font-bold text-outline-variant font-mono uppercase tracking-widest" style="">LAYER 02</span>
+</div>
+<!-- Storage -->
+<div class="p-8 rounded-full bg-surface-container-low border border-white/5 flex items-center gap-8 hover:bg-surface-container transition-all group reveal reveal-delay-2">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="">storage</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline font-bold text-lg text-primary" style="">Storage</h3>
+<p class="text-sm text-on-surface-variant" style="">PostgreSQL backbone with real-time replication.</p>
+</div>
+<span class="text-[10px] font-bold text-outline-variant font-mono uppercase tracking-widest" style="">LAYER 03</span>
+</div>
+<!-- Output -->
+<div class="p-8 rounded-full bg-surface-container-low border border-white/5 flex items-center gap-8 hover:bg-surface-container transition-all group reveal reveal-delay-3">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="">analytics</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline font-bold text-lg text-primary" style="">Output</h3>
+<p class="text-sm text-on-surface-variant" style="">Structured reporting, API triggers, and dashboard visualization.</p>
+</div>
+<span class="text-[10px] font-bold text-outline-variant font-mono uppercase tracking-widest" style="">LAYER 04</span>
+</div>
+<!-- External -->
+<div class="p-8 rounded-full bg-surface-container-low border border-white/5 flex items-center gap-8 hover:bg-surface-container transition-all group reveal reveal-delay-4">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-highest rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary-fixed-dim" style="">hub</span>
+</div>
+<div class="flex-grow">
+<h3 class="font-headline font-bold text-lg text-primary" style="">External</h3>
+<p class="text-sm text-on-surface-variant" style="">Third-party integrations, LLM analysts, and notification hooks.</p>
+</div>
+<span class="text-[10px] font-bold text-outline-variant font-mono uppercase tracking-widest" style="">LAYER 05</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- External Resources & Tools -->
+<section class="py-32 px-8 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16 reveal">
+<h2 class="text-4xl font-headline font-extrabold text-on-surface tracking-tighter" style="">Resources &amp; Tooling</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card 1 -->
+<div class="p-10 rounded-xl bg-surface border border-white/5 hover:border-primary-fixed-dim/40 transition-all duration-300 group reveal reveal-delay-1">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" style="">architecture</span>
+<h3 class="text-xl font-bold font-headline mb-4 group-hover:translate-x-2 transition-transform" style="">Icons &amp; Assets</h3>
+<p class="text-on-surface-variant text-sm mb-6" style="">Official design tokens and SVG library for internal telemetry dashboards.</p>
+<a class="inline-flex items-center text-xs font-bold text-primary uppercase tracking-widest gap-2" href="#" style="">
+                            Access Library <span class="material-symbols-outlined text-sm" style="">arrow_forward</span>
+</a>
+</div>
+<!-- Card 2 -->
+<div class="p-10 rounded-xl bg-surface border border-white/5 hover:border-primary-fixed-dim/40 transition-all duration-300 group reveal reveal-delay-2">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" style="">draw</span>
+<h3 class="text-xl font-bold font-headline mb-4 group-hover:translate-x-2 transition-transform" style="">Diagramming Tools</h3>
+<p class="text-on-surface-variant text-sm mb-6" style="">Cloud-native canvas for collaborative architectural planning.</p>
+<a class="inline-flex items-center text-xs font-bold text-primary uppercase tracking-widest gap-2" href="#" style="">
+                            Launch Editor <span class="material-symbols-outlined text-sm" style="">arrow_forward</span>
+</a>
+</div>
+<!-- Card 3 -->
+<div class="p-10 rounded-xl bg-surface border border-white/5 hover:border-primary-fixed-dim/40 transition-all duration-300 group reveal reveal-delay-3">
+<span class="material-symbols-outlined text-4xl text-primary-fixed-dim mb-6" style="">menu_book</span>
+<h3 class="text-xl font-bold font-headline mb-4 group-hover:translate-x-2 transition-transform" style="">Reference Architectures</h3>
+<p class="text-on-surface-variant text-sm mb-6" style="">Standardized blueprints for high-availability sensor nodes.</p>
+<a class="inline-flex items-center text-xs font-bold text-primary uppercase tracking-widest gap-2" href="#" style="">
+                            View Docs <span class="material-symbols-outlined text-sm" style="">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Best Practices -->
+<section class="py-40 px-8 relative overflow-hidden bg-surface">
+<div class="absolute inset-0 bg-gradient-to-t from-primary-fixed-dim/10 to-transparent opacity-50"></div>
+<div class="max-w-4xl mx-auto relative z-10 text-center">
+<h2 class="text-5xl md:text-6xl font-black font-headline text-on-surface mb-12 tracking-tighter reveal" style="">Technical DNA</h2>
+<div class="flex flex-col md:flex-row items-center justify-center gap-12">
+<div class="flex flex-col items-center reveal reveal-delay-1">
+<div class="text-4xl font-headline font-extrabold text-primary-fixed-dim mb-2" style="">Simple.</div>
+<p class="text-[10px] tracking-widest text-on-secondary-fixed-variant uppercase" style="">Reduced Overhead</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-outline-variant hidden md:block reveal reveal-delay-2"></div>
+<div class="flex flex-col items-center reveal reveal-delay-3">
+<div class="text-4xl font-headline font-extrabold text-primary-fixed-dim mb-2" style="">Specific.</div>
+<p class="text-[10px] tracking-widest text-on-secondary-fixed-variant uppercase" style="">Task Oriented</p>
+</div>
+<div class="w-2 h-2 rounded-full bg-outline-variant hidden md:block reveal reveal-delay-4"></div>
+<div class="flex flex-col items-center reveal reveal-delay-1">
+<div class="text-4xl font-headline font-extrabold text-primary-fixed-dim mb-2" style="">Consistent.</div>
+<p class="text-[10px] tracking-widest text-on-secondary-fixed-variant uppercase" style="">Global Standards</p>
+</div>
+</div>
+<div class="mt-20 reveal reveal-delay-3">
+<button class="bg-primary-container text-on-primary-container font-headline font-extrabold py-5 px-10 rounded-xl hover:shadow-[0_0_40px_-5px_rgba(0,245,255,0.4)] transition-all" style="">
+                        Initialize Project Shell
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-12 bg-[#131313] border-t border-white/5">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 gap-8 max-w-7xl mx-auto reveal">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-lg font-black text-[#e9feff] font-headline uppercase tracking-tighter" style="">Obsidian Lens</div>
+<p class="font-inter text-[10px] tracking-widest uppercase text-[#454749]" style="">© 2024 OBSIDIAN LENS. HIGH-PRECISION OPTICAL INSTRUMENTATION.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-inter text-[10px] tracking-widest uppercase text-[#454749] hover:text-[#e9feff] transition-opacity" href="#" style="">Documentation</a>
+<a class="font-inter text-[10px] tracking-widest uppercase text-[#454749] hover:text-[#e9feff] transition-opacity" href="#" style="">Changelog</a>
+<a class="font-inter text-[10px] tracking-widest uppercase text-[#454749] hover:text-[#e9feff] transition-opacity" href="#" style="">API Reference</a>
+<a class="font-inter text-[10px] tracking-widest uppercase text-[#454749] hover:text-[#e9feff] transition-opacity" href="#" style="">Status</a>
+</div>
+</div>
+</footer>
+<script>
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // Bidirectional: Add active class when entering, remove when leaving (optional for true Apple style)
+            // But usually Apple style keeps the state once revealed or re-animates slightly differently.
+            // Here we ensure it works both ways for a cinematic feel.
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            } else {
+                // Remove this line if you only want elements to animate once
+                entry.target.classList.remove('active');
+            }
+        });
+    }, observerOptions);
+
+    // Target all elements with the reveal class
+    document.querySelectorAll('.reveal').forEach(el => {
+        observer.observe(el);
+    });
+
+    // Handle scroll depth for navbar blur intensity
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('nav');
+        if (window.scrollY > 50) {
+            nav.classList.add('shadow-xl');
+        } else {
+            nav.classList.remove('shadow-xl');
+        }
+    });
+</script>
+</body></html>

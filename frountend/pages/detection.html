@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OBSIDIAN_LENS_EV | AI Inspection</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "surface-container-highest": "#353534",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "tertiary": "#f8fafe",
+                        "tertiary-fixed": "#e0e3e6",
+                        "on-surface-variant": "#b9caca",
+                        "on-primary-fixed": "#002021",
+                        "on-tertiary-container": "#5e6265",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "surface-tint": "#00dce5",
+                        "surface-container": "#201f1f",
+                        "on-error-container": "#ffdad6",
+                        "outline-variant": "#3a494a",
+                        "outline": "#849495",
+                        "tertiary-container": "#dbdee2",
+                        "surface": "#131313",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed": "#63f7ff",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed": "#181c1f",
+                        "background": "#131313",
+                        "inverse-surface": "#e5e2e1",
+                        "secondary-container": "#454749",
+                        "error": "#ffb4ab",
+                        "primary-container": "#00f5ff",
+                        "on-surface": "#e5e2e1",
+                        "on-tertiary": "#2d3134",
+                        "on-primary-fixed-variant": "#004f53",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "on-secondary-container": "#b4b5b7",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-error": "#690005",
+                        "on-secondary": "#2f3133",
+                        "on-primary-container": "#006c71",
+                        "secondary-fixed": "#e2e2e5",
+                        "inverse-primary": "#00696e",
+                        "primary": "#e9feff",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-bright": "#3a3939",
+                        "surface-dim": "#131313",
+                        "secondary": "#c6c6c9",
+                        "surface-variant": "#353534",
+                        "on-primary": "#003739",
+                        "surface-container-high": "#2a2a2a",
+                        "primary-fixed-dim": "#00dce5",
+                        "on-secondary-fixed-variant": "#454749",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #131313; }
+        ::-webkit-scrollbar-thumb { background: #353534; border-radius: 10px; }
+
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-reveal {
+            view-timeline-name: --reveal;
+            view-timeline-axis: block;
+            animation-name: reveal;
+            animation-fill-mode: both;
+            animation-timeline: --reveal;
+            animation-range: entry 10% cover 35%;
+        }
+
+        .aside-reveal {
+            animation: reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 5% cover 25%;
+        }
+
+        .main-reveal {
+            animation: reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% cover 20%;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .btn-interact:active { transform: scale(0.97); }
+        
+        @keyframes scanline {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        .scanning::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #63f7ff;
+            box-shadow: 0 0 15px #63f7ff;
+            animation: scanline 2s linear infinite;
+        }
+
+        .ledger-row:hover .row-action {
+            opacity: 1;
+        }
+
+        .glow-error {
+            box-shadow: 0 0 15px rgba(255, 180, 171, 0.15);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body min-h-screen">
+<!-- Top Navigation Bar (shared) -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/60 backdrop-blur-3xl border-b border-white/10 shadow-[0_0_50px_-12px_rgba(0,220,229,0.1)]">
+  <div class="flex justify-between items-center px-8 h-16 max-w-full mx-auto">
+    <a href="home.html" class="text-xl font-bold tracking-tighter text-[#e9feff] font-headline">Obsidian Lens</a>
+    <div class="hidden md:flex items-center gap-6 font-headline tracking-tight text-sm">
+      <a href="home.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Home</a>
+      <a href="architecture.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Architecture</a>
+      <a href="Metrics.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Metrics</a>
+      <a href="impact.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors">Impact</a>
+      <a href="detection.html" class="text-[#00dce5] border-b-2 border-[#00dce5] pb-1">Detection</a>
+    </div>
+        <div class="flex items-center gap-6">
+            <a href="detection.html" class="bg-[#00dce5] text-[#002021] px-4 py-1.5 rounded-lg text-sm font-bold hover:opacity-80 transition-all">Get Access</a>
+        </div>
+  </div>
+</nav>
+<!-- Main Container that Scrolls -->
+<div class="flex pt-16 min-h-screen w-full relative">
+<!-- Sidebar (Now part of the main flow, or can be sticky) -->
+<aside class="w-80 shrink-0 bg-[#1c1b1b] border-r border-[#c6c6c9]/10 flex flex-col relative">
+<div class="sticky top-16 h-[calc(100vh-64px)] overflow-y-auto">
+<nav class="p-4 space-y-1">
+<button class="w-full flex items-center gap-3 px-4 py-3 bg-primary/10 text-primary-fixed-dim rounded-xl border border-primary/20 transition-all group">
+<span class="material-symbols-outlined text-[20px]" data-icon="shutter_speed">shutter_speed</span>
+<span class="text-sm font-bold tracking-wide uppercase">Scan Engine</span>
+</button>
+</nav>
+<div class="p-6 pt-2 space-y-8">
+<!-- Header Info -->
+<div class="space-y-1 aside-reveal">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></div>
+<h2 class="text-primary-fixed-dim font-headline font-bold">Unit LENS-04</h2>
+</div>
+<p class="text-xs text-on-surface-variant">Precision Scan Active</p>
+</div>
+<!-- Drag & Drop -->
+<div class="space-y-3 aside-reveal">
+<h3 class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Input Source</h3>
+<div class="group relative border-2 border-primary-fixed/30 rounded-xl p-4 flex flex-col items-center text-center gap-3 hover:border-primary-fixed-dim transition-all cursor-pointer bg-surface-container-lowest overflow-hidden">
+<div class="absolute inset-0 bg-primary/5 opacity-50 group-hover:opacity-100 transition-opacity"></div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed-dim/20 flex items-center justify-center text-primary-fixed-dim">
+<span class="material-symbols-outlined text-2xl" data-icon="image">image</span>
+</div>
+<div class="space-y-1">
+<p class="text-xs font-bold text-primary-fixed-dim uppercase">UNDERC_REAR_04.jpg</p>
+<p class="text-[10px] text-on-surface-variant/80">Ready for inspection • 12.4 MB</p>
+</div>
+<button class="mt-1 text-[10px] font-bold text-on-surface-variant hover:text-error transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="close">close</span> REMOVE
+                                </button>
+<input id="fileInput" type="file" accept="image/*" class="mt-2 w-full text-sm text-on-surface bg-surface-container-lowest p-2 rounded" />
+</div>
+</div>
+</div>
+<!-- Threshold Slider -->
+<div class="space-y-4 aside-reveal">
+<div class="flex justify-between items-center">
+<h3 class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Confidence Threshold</h3>
+<span id="confidenceValue" class="text-xs font-mono text-primary-fixed-dim">0.85</span>
+</div>
+<div class="relative w-full h-6 flex items-center">
+<input id="confidenceRange" class="w-full h-1 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary-fixed-dim" type="range" min="0" max="100" value="85"/>
+</div>
+</div>
+<!-- Inspection Controls -->
+<div class="space-y-3 pt-4 aside-reveal">
+<button id="btnStartInspection" class="group relative w-full bg-primary hover:bg-[#33f7ff] text-[#0f2223] font-headline font-extrabold py-4 rounded overflow-hidden flex items-center justify-center gap-2 active:scale-[0.96] transition-all shadow-lg shadow-primary/20 uppercase tracking-tighter">
+<div class="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+<span class="relative flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="play_arrow" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                                START INSPECTION
+                            </span>
+</button>
+<button id="btnResetSystem" class="w-full border border-primary/50 hover:border-primary text-primary/80 hover:text-primary font-headline font-bold py-3 rounded flex items-center justify-center gap-2 hover:bg-primary/5 transition-all active:scale-[0.98] uppercase tracking-tighter text-xs">
+<span class="material-symbols-outlined text-sm" data-icon="refresh">refresh</span>
+                            RESET SYSTEM
+                        </button>
+</div>
+<!-- Workflow Progress -->
+<div class="space-y-4 pt-6 border-t border-outline-variant/30 aside-reveal pb-12">
+<h3 class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Workflow Progress</h3>
+<div class="space-y-4">
+<div class="mb-3">
+<progress id="uploadProgress" value="0" max="100" class="w-full h-2 rounded-lg"></progress>
+<div id="uploadProgressLabel" class="text-xs text-on-surface-variant mt-1">0%</div>
+</div>
+<div class="flex items-center gap-3 group cursor-default">
+<div class="w-6 h-6 rounded-full bg-primary-fixed-dim/20 border border-primary-fixed-dim/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px] font-bold" data-icon="check">check</span>
+ </div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface font-medium uppercase tracking-tight">Upload Complete</span>
+<span id="workflowUploadDetail" class="text-[9px] text-on-surface-variant/70">Not uploaded</span>
+ </div>
+</div>
+<div class="flex items-center gap-3 group cursor-default">
+<div class="w-6 h-6 rounded-full bg-primary-fixed-dim/20 border border-primary-fixed-dim/40 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px] font-bold" data-icon="check">check</span>
+ </div>
+<div class="flex flex-col">
+<span class="text-xs text-on-surface font-medium uppercase tracking-tight">Image Processed</span>
+<span id="workflowImageDetail" class="text-[9px] text-on-surface-variant/70">Not processed</span>
+ </div>
+</div>
+<div class="flex items-center gap-3 group cursor-default">
+<div class="relative flex items-center justify-center w-6 h-6">
+<div class="absolute inset-0 rounded-full bg-primary-fixed/20 animate-ping opacity-75"></div>
+<div class="relative w-6 h-6 rounded-full bg-surface-container-highest border-2 border-primary-fixed flex items-center justify-center">
+<div class="w-2 h-2 rounded-full bg-primary-fixed" id="workflowAiDot"></div>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="text-xs text-primary-fixed-dim font-bold uppercase tracking-tight">AI Detection Running</span>
+<span id="workflowAiDetail" class="text-[9px] text-primary-fixed-dim/70 animate-pulse uppercase">Idle</span>
+ </div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Workspace and Dashboard -->
+<main class="flex-1 flex flex-col bg-background">
+<!-- Image Workspace Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-px bg-outline-variant/10">
+<!-- Original Viewer -->
+<div class="relative bg-surface p-4 flex flex-col main-reveal border-b border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold">Original Vehicle Undercarriage Image</span>
+<div class="flex gap-2">
+<button class="bg-surface-container-low p-1.5 rounded-lg border border-outline-variant/30 hover:bg-surface-container-high hover:border-primary/30 transition-all active:scale-90">
+<span class="material-symbols-outlined text-sm" data-icon="zoom_in">zoom_in</span>
+</button>
+<button class="bg-surface-container-low p-1.5 rounded-lg border border-outline-variant/30 hover:bg-surface-container-high hover:border-primary/30 transition-all active:scale-90">
+<span class="material-symbols-outlined text-sm" data-icon="zoom_out">zoom_out</span>
+</button>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-lowest rounded-xl relative overflow-hidden flex items-center justify-center border border-outline-variant/5 min-h-[450px] group">
+<img id="originalImage" alt="Original Undercarriage" loading="lazy" class="max-w-full max-h-full object-contain" data-alt="Technical high-resolution photo of an electric vehicle underbody showing battery casing and chassis components from below in a garage" src="https://lh3.googleusercontent.com/aida/ADBb0uht5E2uHplbRc3LjNK01D1vCCV30Pfe0C88B9UttUkth6ow1j_ye0LdlEBBCgFHhKN_W24I5ndbKl9VuojrSt1g7ZYJCUSBpFIqwGFN9wcLJU9URntShdPqocBSHux0lWDPm5idxdCEpRNeQ7WlQ5W0EEjTkdeZEB2gavV9sAY1AKFkdK0NwFqq45MFpnd11kiOF9-bvt4z473-_ZHp1XCjyFsIqWKzTdg3QtvHdX-6yC6u2-UQbLu8Us1ioJ46k83ElKIwAZ-7Tg"/>
+<div class="absolute inset-0 pointer-events-none border border-primary-fixed/5 group-hover:bg-primary/5 transition-colors"></div>
+</div>
+</div>
+<!-- Detection Result -->
+<div class="relative bg-surface p-4 flex flex-col main-reveal border-b border-outline-variant/10">
+<div class="flex justify-between items-center mb-4">
+<span class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold">Detection Result</span>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 hover:bg-white/5 px-2 py-0.5 rounded-md transition-colors cursor-default">
+<span class="w-2 h-2 rounded-full bg-[#ffb4ab]"></span>
+<span class="text-[10px] text-on-surface-variant">Dent</span>
+</div>
+<div class="flex items-center gap-1.5 hover:bg-white/5 px-2 py-0.5 rounded-md transition-colors cursor-default">
+<span class="w-2 h-2 rounded-full bg-yellow-400"></span>
+<span class="text-[10px] text-on-surface-variant">Scratch</span>
+</div>
+<div class="flex items-center gap-1.5 hover:bg-white/5 px-2 py-0.5 rounded-md transition-colors cursor-default">
+<span class="w-2 h-2 rounded-full bg-purple-500"></span>
+<span class="text-[10px] text-on-surface-variant">Puncture</span>
+</div>
+</div>
+</div>
+<div class="flex-1 bg-surface-container-lowest rounded-xl relative overflow-hidden flex items-center justify-center border border-outline-variant/5 min-h-[450px] scanning">
+<img id="detectionResult" alt="AI Vehicle Undercarriage Inspection Graph" loading="lazy" class="max-w-full max-h-full object-contain" data-alt="A high-tech computer vision detection result graph for a vehicle undercarriage inspection showing chassis x-ray view with colored bounding boxes and technical data overlays." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpRQyFYx9ca77bCa4tzZlDlT9RaxTDSELc-KuL1Fsk9USoRc2mJlKq5v2OrkGLAohCpUXQXolZ1qMb0r_sxE0lnvM4UPODpkWlGHP45BfzeT07HUlNHS_TGCySM40WjA7ITbP3tE-0apBHL7NgldbxneHVV-orLwMBnw8d_WU7eyT919SKbKnGU5g1LNGRehNit6UavfwmecHEIG9g36pxO3E3g2Q2VwGhmjFxvFTWRUWNMT7Lv77ZOHbwvePMvoV9egIlqEr2RGGG"/>
+<!-- ID-D-401 Highlight -->
+<div class="absolute top-1/4 left-1/3 w-32 h-24 border-2 border-[#ffb4ab] rounded-lg bg-[#ffb4ab]/10 group cursor-help transition-all hover:scale-105 hover:bg-[#ffb4ab]/20" id="box-D-401">
+<div class="absolute -top-6 left-0 bg-[#ffb4ab] text-[#690005] px-2 py-0.5 rounded text-[10px] font-bold shadow-lg">Dent: 91%</div>
+<div class="hidden group-hover:block absolute bottom-full left-0 mb-2 w-48 bg-surface-bright p-3 rounded-lg shadow-2xl text-[10px] border border-outline-variant z-50">
+<p class="font-bold text-[#ffb4ab] mb-1 uppercase tracking-wider font-headline">DENT_01 (CRITICAL)</p>
+                                Confidence: 91.4% <br/> Area: 142.5cm² <br/> Severity: High <br/> Depth: 4.2mm
+                            </div>
+</div>
+<!-- ID-S-102 Highlight -->
+<div class="absolute bottom-1/3 right-1/4 w-20 h-40 border-2 border-yellow-400 rounded-lg bg-yellow-400/10 group cursor-help transition-all hover:scale-105 hover:bg-yellow-400/20" id="box-S-102">
+<div class="absolute -top-6 left-0 bg-yellow-400 text-black px-2 py-0.5 rounded text-[10px] font-bold shadow-lg">Scratch: 84%</div>
+<div class="hidden group-hover:block absolute top-full left-0 mt-2 w-48 bg-surface-bright p-3 rounded-lg shadow-2xl text-[10px] border border-outline-variant z-50">
+<p class="font-bold text-yellow-400 mb-1 uppercase tracking-wider font-headline">SCRATCH_02</p>
+                                Confidence: 84.2% <br/> Length: 12.4cm <br/> Severity: Medium
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Dashboard Section (Integrated into Main Scroll) -->
+<div class="p-6 bg-surface-container-low space-y-6">
+<div class="grid grid-cols-12 gap-6">
+<!-- Summary Cards -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-container-high rounded-xl p-5 border-l-4 border-error shadow-sm hover:shadow-md transition-all cursor-default scroll-reveal glow-error relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-3 opacity-20">
+<span class="material-symbols-outlined text-4xl text-error" data-icon="warning">warning</span>
+</div>
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold mb-2">Inspection Status</p>
+<p class="text-error font-headline font-extrabold text-base tracking-tight flex items-center gap-3">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-error"></span>
+</span>
+                                CRITICAL_DAMAGE_DETECTED
+                            </p>
+<div class="mt-4 flex items-center gap-2">
+<span class="text-[10px] font-mono text-on-surface-variant uppercase">Safety Score:</span>
+<span class="text-xs font-mono font-bold text-error">42/100</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-high rounded-xl p-5 border border-outline-variant/20 hover:border-primary-fixed/30 transition-all cursor-default scroll-reveal relative">
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold mb-2">Total Damages</p>
+<div class="flex items-baseline gap-2">
+<p data-stat="total-damages" class="text-primary-fixed-dim font-headline font-extrabold text-3xl">03</p>
+<span class="text-[10px] text-on-surface-variant font-mono">FILES</span>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-5 border border-outline-variant/20 hover:border-primary-fixed/30 transition-all cursor-default scroll-reveal relative">
+<p class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold mb-2">Highest Confidence</p>
+<div class="flex items-baseline gap-2">
+<p data-stat="highest-confidence" class="text-primary-fixed-dim font-headline font-extrabold text-3xl">91</p>
+<span class="text-[10px] text-on-surface-variant font-mono">%</span>
+</div>
+</div>
+</div>
+<!-- AI Explainability: Deep Neural Analysis -->
+<div class="bg-surface-container-high rounded-xl p-5 border border-outline-variant/30 hover:border-primary-fixed/40 transition-all scroll-reveal cursor-default bg-gradient-to-br from-surface-container-high to-surface-container-highest">
+<h4 class="text-[10px] uppercase tracking-[0.2em] text-primary-fixed-dim font-bold mb-4 flex items-center justify-between">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm" data-icon="psychology">psychology</span>
+                                    Deep Neural Analysis
+                                </span>
+<span class="text-[8px] font-mono opacity-50">NODE_REF: ANALYTICS_V4</span>
+</h4>
+<div class="space-y-3">
+<div class="flex gap-3">
+<div class="w-1 h-1 rounded-full bg-primary-fixed mt-1.5 shrink-0"></div>
+<p class="text-xs text-on-surface/90 leading-relaxed font-body">
+<span class="text-primary-fixed/80 font-bold">Structural Anomaly:</span> Surface deformation pattern detected on battery shield. Reflection analysis indicates structural concave anomaly.
+                                    </p>
+</div>
+<div class="flex gap-3">
+<div class="w-1 h-1 rounded-full bg-primary-fixed mt-1.5 shrink-0"></div>
+<p class="text-xs text-on-surface/90 leading-relaxed font-body">
+<span class="text-primary-fixed/80 font-bold">CAD Deviation:</span> Detected <span class="text-error font-mono">142px</span> deviation from reference model geometry.
+                                    </p>
+</div>
+<div class="flex gap-3">
+<div class="w-1 h-1 rounded-full bg-primary-fixed mt-1.5 shrink-0"></div>
+<p class="text-xs text-on-surface/90 leading-relaxed font-body">
+<span class="text-primary-fixed/80 font-bold">Material Integrity:</span> Thermal signature baseline suggests potential heat dissipation compromise in Segment C3.
+                                    </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+    // Set your backend API base URL here if different from the default.
+    // Change to the address where the FastAPI server is running (e.g. 'http://127.0.0.1:8000').
+    window.API_BASE = window.API_BASE || 'http://127.0.0.1:8000';
+</script>
+<script type="module" src="js/detection-controller.js"></script>
+</body></html>

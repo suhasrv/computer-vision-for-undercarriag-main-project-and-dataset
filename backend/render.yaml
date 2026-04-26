@@ -1,0 +1,22 @@
+name: "YOLOv8 Detection API"
+runtime: "python311"
+services:
+  - type: web
+    name: "YOLOv8 Detection API"
+    runtime: "python311"
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+env:
+  - key: "SUPABASE_URL"
+    sync: false
+  - key: "SUPABASE_SERVICE_ROLE_KEY"
+    sync: false
+  - key: "SUPABASE_ANON_KEY"
+    sync: false
+  - key: "MODEL_FORMAT"
+    value: "torchscript"
+  - key: "MODEL_PATH"
+    value: "models/yolov8m.torchscript"
+  - key: "DEBUG"
+    value: "False"

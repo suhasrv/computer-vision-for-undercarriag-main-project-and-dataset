@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Obsidian Lens | Impact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "#3a494a",
+                        "error": "#ffb4ab",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "surface": "#131313",
+                        "on-tertiary-fixed-variant": "#43474a",
+                        "surface-dim": "#131313",
+                        "outline": "#849495",
+                        "on-tertiary-container": "#5e6265",
+                        "primary-container": "#00f5ff",
+                        "on-secondary-fixed-variant": "#454749",
+                        "surface-bright": "#3a3939",
+                        "inverse-primary": "#00696e",
+                        "tertiary-fixed-dim": "#c4c7ca",
+                        "on-surface-variant": "#b9caca",
+                        "surface-variant": "#353534",
+                        "primary-fixed-dim": "#00dce5",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "surface-container-low": "#1c1b1b",
+                        "on-primary": "#003739",
+                        "inverse-on-surface": "#313030",
+                        "secondary": "#c6c6c9",
+                        "on-tertiary-fixed": "#181c1f",
+                        "surface-container-highest": "#353534",
+                        "secondary-container": "#454749",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-secondary-container": "#b4b5b7",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#2f3133",
+                        "on-error": "#690005",
+                        "on-background": "#e5e2e1",
+                        "on-primary-container": "#006c71",
+                        "primary": "#e9feff",
+                        "surface-container-high": "#2a2a2a",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#dbdee2",
+                        "on-tertiary": "#2d3134",
+                        "surface-container": "#201f1f",
+                        "background": "#131313",
+                        "surface-tint": "#00dce5",
+                        "secondary-fixed": "#e2e2e5",
+                        "on-surface": "#e5e2e1",
+                        "on-primary-fixed": "#002021",
+                        "primary-fixed": "#63f7ff",
+                        "tertiary": "#f8fafe",
+                        "tertiary-fixed": "#e0e3e6",
+                        "on-primary-fixed-variant": "#004f53"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+            overflow-x: hidden;
+            font-family: 'Manrope', sans-serif;
+        }
+        ::selection {
+            background: #00dce5;
+            color: #003739;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .glass-panel {
+            background: rgba(19, 19, 19, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        /* Scroll Animation Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible && elementTop > -reveals[i].offsetHeight) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+    </script>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-[#131313]/60 backdrop-blur-xl border-none shadow-[0_0_48px_rgba(0,220,229,0.05)] flex justify-between items-center px-8 h-20">
+    <a href="home.html" class="text-2xl font-black tracking-tighter text-[#e9feff] font-headline">Obsidian Lens</a>
+    <div class="hidden md:flex items-center space-x-6">
+        <a href="home.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors font-headline tracking-tight font-bold">Home</a>
+        <a href="architecture.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors font-headline tracking-tight font-bold">Architecture</a>
+        <a href="Metrics.html" class="text-[#c6c6c9] hover:text-[#e9feff] transition-colors font-headline tracking-tight font-bold">Metrics</a>
+        <a href="impact.html" class="text-[#00dce5] border-b-2 border-[#00dce5] pb-1 font-headline tracking-tight font-bold">Impact</a>
+    </div>
+    <div class="flex items-center">
+        <a href="detection.html" class="bg-gradient-to-br from-primary-fixed to-primary-fixed-dim text-on-primary-fixed font-headline font-bold px-6 py-2 rounded-xl transition-transform active:scale-95 duration-200">Get Access</a>
+    </div>
+</nav>
+<main class="w-full">
+<!-- Section 1: Hero -->
+<section class="relative min-h-screen flex flex-col items-center justify-center pt-20 px-8 text-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest via-surface to-surface"></div>
+<img alt="Cinematic background" class="w-full h-full object-cover opacity-20 mix-blend-overlay" data-alt="Industrial robotic arm performing high-precision laser scanning on a futuristic vehicle chassis in a dark manufacturing plant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVFV7VMRfQ56BobwpC4LibkQ2-UACHKraH_uxg4JH9MZl3ByNpBpxd_Hr2Sx5mtje7jYzdS_myasbYKeITzjUB_x8Vqb8HfOR5AO6-YHmSpsK2jIxGEefZqm-QD5MgAeR7mHhxW4Wp4etx_uC_eDxDbE--0mDEDumiU0Y6shUpBXFDONOm9g_cRo00lt_NEXGq4hSXqDPrHlCtabORKq7npqkAAMk2IqeeaQkZomSWqIQWSfaeZOxLTTVC-J0LNYkOBbJGkqmrG3dQ"/>
+</div>
+<div class="relative z-10 max-w-5xl reveal">
+<span class="text-primary-fixed-dim font-headline tracking-[0.2em] text-sm uppercase mb-6 block">The Precise Observer</span>
+<h1 class="text-6xl md:text-8xl font-headline font-black text-primary tracking-tighter mb-8 leading-tight">
+                    Impact – <br/><span class="text-primary-fixed">Undercarriage Inspection</span>
+</h1>
+<p class="text-xl md:text-2xl text-secondary-fixed-dim font-light max-w-3xl mx-auto leading-relaxed">
+                    Translating AI-driven optical precision into tangible business equity. We solve the defects that manual legacy systems miss, securing your bottom line and brand reputation.
+                </p>
+<div class="mt-12 flex justify-center space-x-6">
+<span class="material-symbols-outlined text-primary-fixed text-4xl animate-bounce">expand_more</span>
+</div>
+</div>
+</section>
+<!-- Section 2: Financial Benefits -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 reveal">
+<h2 class="text-4xl font-headline font-bold text-primary mb-4">Financial Benefits</h2>
+<div class="h-1 w-24 bg-primary-fixed"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Cost per Inspection -->
+<div class="p-8 rounded-xl bg-surface-container-high border border-outline-variant/10 shadow-2xl flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-500 reveal">
+<div>
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl mb-4">payments</span>
+<h3 class="text-on-surface-variant font-label text-sm uppercase tracking-widest mb-2">Cost Optimization</h3>
+<p class="text-primary text-3xl font-headline font-black mb-1">94% Savings</p>
+</div>
+<p class="text-secondary-fixed-dim text-sm mt-4 leading-relaxed">Reducing manual inspection overhead from high-cost labor to automated optical precision.</p>
+</div>
+<!-- Warranty Reduction -->
+<div class="p-8 rounded-xl bg-surface-container-high border border-outline-variant/10 shadow-2xl flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-500 reveal">
+<div>
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl mb-4">verified_user</span>
+<h3 class="text-on-surface-variant font-label text-sm uppercase tracking-widest mb-2">Warranty Claims</h3>
+<p class="text-primary text-3xl font-headline font-black mb-1">20% Reduction</p>
+</div>
+<p class="text-secondary-fixed-dim text-sm mt-4 leading-relaxed">Identifying structural defects before they reach the consumer, slashing warranty reserve requirements.</p>
+</div>
+<!-- ROI Timeline -->
+<div class="p-8 rounded-xl bg-surface-container-high border border-outline-variant/10 shadow-2xl flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-500 reveal">
+<div>
+<span class="material-symbols-outlined text-primary-fixed-dim text-3xl mb-4">timer</span>
+<h3 class="text-on-surface-variant font-label text-sm uppercase tracking-widest mb-2">ROI Timeline</h3>
+<p class="text-primary text-3xl font-headline font-black mb-1">&lt; 12 Months</p>
+</div>
+<p class="text-secondary-fixed-dim text-sm mt-4 leading-relaxed">Rapid integration and immediate defect detection ensure a sub-year payback period on CAPEX.</p>
+</div>
+<!-- Battery Detection ROI -->
+<div class="p-8 rounded-xl bg-primary-fixed text-on-primary-fixed shadow-[0_0_64px_rgba(0,220,229,0.15)] flex flex-col justify-between reveal">
+<div>
+<span class="material-symbols-outlined text-on-primary-fixed text-3xl mb-4" data-weight="fill">battery_charging_full</span>
+<h3 class="text-on-primary-fixed-variant font-label text-sm uppercase tracking-widest mb-2">Battery Yield</h3>
+<p class="text-on-primary-fixed text-3xl font-headline font-black mb-1">17:1 ROI</p>
+</div>
+<p class="text-on-primary-fixed-variant text-sm mt-4 font-medium leading-relaxed">Every $1 invested in early-stage battery scanning saves $17 in post-sale remediation costs.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Safety Impact (Cinematic) -->
+<section class="relative min-h-[819px] py-32 px-8 flex items-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Safety section background" class="w-full h-full object-cover grayscale" data-alt="Dramatic high-contrast photo of sparks flying from a metal grinding process in a dark industrial workshop" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMNkKAV1WfKnkhW0jYBAnVfIHi6PRP4LlelL2hnE4Yymc1o7ZxYN1FVw1bahuhvJsi_82rO8KFBWAzNIEuD1UUf3tNR9ao0teH6O1jCFhVsvCs_mvAiWiMr-TNyPyZFUJwBvbekvO4rmPbla_QjrUPRfaTeH-0CJsj19Z4eIQ9rMLQr30hmrUOn4UR1Rc3fbqk2dQOlIhONERY2s5Gk0EsaSfb3T3JvX9TyMxojKM3Te7LU2i6NF9Jtli6LXteQsoHgPpgeLDhavql"/>
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/90 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16">
+<div class="reveal">
+<h2 class="text-5xl font-headline font-black text-primary mb-6">Mitigating the Invisible Hazard</h2>
+<p class="text-xl text-secondary-fixed-dim mb-10 leading-relaxed">Thermal runaway is the single greatest threat to EV scalability. Obsidian Lens provides the critical scanning layer needed to eliminate thermal incidents before they occur.</p>
+<div class="space-y-6">
+<div class="flex items-start space-x-4">
+<div class="mt-1 px-3 py-1 bg-error-container/20 border border-error/50 rounded-full">
+<span class="text-error text-xs font-label font-bold">CRITICAL</span>
+</div>
+<div>
+<p class="text-2xl font-headline font-bold text-primary">77% Surge in Battery Fires</p>
+<p class="text-on-surface-variant">Annual increase in documented thermal runaway events globally.</p>
+</div>
+</div>
+<div class="flex items-start space-x-4">
+<div class="mt-1 px-3 py-1 bg-error-container/20 border border-error/50 rounded-full">
+<span class="text-error text-xs font-label font-bold">HAZARD</span>
+</div>
+<div>
+<p class="text-2xl font-headline font-bold text-primary">68% Linked to Hazards</p>
+<p class="text-on-surface-variant">NEV fires directly attributed to undetected underbody damage.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-center reveal">
+<div class="w-full aspect-square max-w-md relative">
+<div class="absolute inset-0 border-[1px] border-primary-fixed/20 rounded-full animate-pulse"></div>
+<div class="absolute inset-8 border-[1px] border-primary-fixed/10 rounded-full"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-6xl text-primary-fixed mb-4" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<p class="text-primary font-black text-4xl">Human Error<br/><span class="text-primary-fixed-dim">Minimized</span></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Operational Impact -->
+<section class="py-32 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8 reveal">
+<div class="max-w-2xl">
+<h2 class="text-4xl font-headline font-bold text-primary mb-4">Operational Throughput</h2>
+<p class="text-on-surface-variant leading-relaxed text-lg">Obsidian Lens integrates seamlessly into the manufacturing line, providing real-time intelligence without throttling your production speed.</p>
+</div>
+<div class="flex items-center space-x-12">
+<div class="text-center">
+<p class="text-5xl font-headline font-black text-primary-fixed">&lt;2m</p>
+<p class="text-on-tertiary-container font-label uppercase text-xs tracking-tighter">Speed/Scan</p>
+</div>
+<div class="text-center">
+<p class="text-5xl font-headline font-black text-primary-fixed">70%</p>
+<p class="text-on-tertiary-container font-label uppercase text-xs tracking-tighter">Downtime Reduction</p>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="relative h-80 rounded-xl overflow-hidden group reveal">
+<img alt="Efficiency" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Modern logistics center with automated robots moving through organized aisles under cool blue lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs2uop1vzAg033hEnl1QWnq2WCVuJA6uMdlH082ZxauhJMjSmV4Inxs_cNBGiBtvUhDcxFgJYksoxMnH4G0imc3s5FBOVHjFbXVPC8OJTbhF51HLhv3U3FrgNhzi76LfmIrsg-w1PTfzNHYoXowtzXdEFUxKSrG9RqwFvthyk_re2P3OcniImzMbsyPANrnWhhy5hUu0RD6-byKowN9jOYW4YagHEBz8hiolma8ydakdTYO0_FFrsKKJXWNgG_GffN3ESsK5jspXEx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<h3 class="text-xl font-headline font-bold text-primary">Unplanned Downtime</h3>
+<p class="text-sm text-secondary-fixed-dim">Predictive analytics preventing system failures.</p>
+</div>
+</div>
+<div class="relative h-80 rounded-xl overflow-hidden group reveal">
+<img alt="Throughput" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Wide angle view of a clean, high-tech automotive assembly line with robotic arms in motion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBiajZvnEqGc6aiXPfWG3iZvMEfNefVUKOf9PIrZCn6pheFw_mb92hYvJq7Sv5nwYwer9AI1dMncpwVsgDCoMyB7ZXfmcN7njfxSY-b5dyTO-agHpPdpBMrv7GRoF22tgKKrZeBWemlVrY7WaUNrGBa3grS8ni-Mj6q61Szzs_Ur87VhDCrDIJHJVTegDwUqPHtUdJHnzFaZj9rSszIWUUuuiE0wi5LaCxkP1mS6BYcvu859zH89bcEZuBz3H-WniFc05bNatvHu0VF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<h3 class="text-xl font-headline font-bold text-primary">Increased Throughput</h3>
+<p class="text-sm text-secondary-fixed-dim">Concurrent scanning during fluid line movement.</p>
+</div>
+</div>
+<div class="relative h-80 rounded-xl overflow-hidden group reveal">
+<img alt="Integration" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Extreme close up of a glowing blue microchip on a circuit board representing high-speed processing" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQfqj6uaHNKeIEluqS_jL89h65FHWxJ7Ygj2OuhFt6E-PM1JyeFPoVSN0XexU0BF4S3O-WQ_9E89z_yshRp5-a9aeqqI10LPi9fvI806i9sKwKF_ZJBAYUKgF7BuK2ZXwV_9KrFZg7FZwmpnq7uKg4OYOO5sGUx64LMf-L3sZJC1CnCpsRPqakZw791mm3mfDomhiF8UBopPyHW8plDiryDHIyJj4HNgCRi-exF_11i-jyRzTZSnvE0a4pd7my30ynT9KUQZ-XQ_W4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-8 left-8">
+<h3 class="text-xl font-headline font-bold text-primary">Native API Integration</h3>
+<p class="text-sm text-secondary-fixed-dim">Zero-latency data piping to existing ERP/MES systems.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Quality & Sustainability -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+<div class="order-2 lg:order-1 grid grid-cols-2 gap-4 reveal">
+<div class="bg-surface-container-high p-8 rounded-xl border border-outline-variant/10">
+<p class="text-primary-fixed-dim text-4xl font-headline font-black">$22M</p>
+<p class="text-on-surface-variant text-sm mt-2">Recall Avoidance Value</p>
+</div>
+<div class="bg-surface-container-high p-8 rounded-xl border border-outline-variant/10">
+<p class="text-primary-fixed-dim text-4xl font-headline font-black">30%</p>
+<p class="text-on-surface-variant text-sm mt-2">Scrap Reduction</p>
+</div>
+<div class="col-span-2 bg-surface-container-highest p-8 rounded-xl border border-outline-variant/10">
+<h4 class="text-primary font-headline font-bold mb-2">Surgical Recall Precision</h4>
+<p class="text-secondary-fixed-dim text-sm">Full digital traceability allows for targeting individual batches rather than blanket model-year recalls.</p>
+</div>
+</div>
+<div class="order-1 lg:order-2 reveal">
+<h2 class="text-4xl font-headline font-bold text-primary mb-6">Quality &amp; Environmental Stewardship</h2>
+<p class="text-lg text-secondary-fixed-dim leading-relaxed mb-8">Precision isn't just about safety—it's about sustainability. By identifying defects at the source, Obsidian Lens reduces material waste and prevents catastrophic recalls like the landmark Chevy Volt incident.</p>
+<div class="flex items-center space-x-3 text-primary-fixed">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-label text-sm uppercase tracking-widest font-bold">Sustainable Manufacturing Core</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Strategic Impact (Bento Grid) -->
+<section class="py-32 px-8 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-4xl font-headline font-bold text-primary mb-12 text-center reveal">Strategic Competitive Advantage</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 grid-rows-2 gap-6 h-auto md:h-[600px]">
+<div class="md:col-span-2 md:row-span-1 bg-surface-container-low rounded-xl p-8 flex flex-col justify-end relative overflow-hidden group border border-outline-variant/10 reveal">
+<span class="material-symbols-outlined absolute top-8 right-8 text-primary-fixed/20 text-8xl" data-weight="fill">hub</span>
+<div class="relative z-10">
+<h3 class="text-2xl font-headline font-bold text-primary mb-2">Scalable Global Architecture</h3>
+<p class="text-on-surface-variant max-w-lg">Deploy consistently across multi-continent production facilities with unified cloud-intelligence.</p>
+</div>
+</div>
+<div class="bg-primary-fixed-dim rounded-xl p-8 flex flex-col justify-between group reveal">
+<span class="material-symbols-outlined text-on-primary-fixed text-4xl">gavel</span>
+<div>
+<h3 class="text-xl font-headline font-bold text-on-primary-fixed mb-2">Regulatory Compliance</h3>
+<p class="text-on-primary-fixed-variant text-sm">Future-proof your operations against tightening EV safety legislation.</p>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-xl p-8 flex flex-col justify-between border border-outline-variant/10 reveal">
+<span class="material-symbols-outlined text-primary-fixed text-4xl">trending_up</span>
+<div>
+<h3 class="text-xl font-headline font-bold text-primary mb-2">Market Leadership</h3>
+<p class="text-on-surface-variant text-sm">Leverage superior safety data as a brand-defining market advantage.</p>
+</div>
+</div>
+<div class="md:col-span-2 bg-surface p-8 rounded-xl border border-primary-fixed/10 flex items-center justify-between group reveal">
+<div class="max-w-md">
+<h3 class="text-2xl font-headline font-bold text-primary mb-2">The Digital Thread</h3>
+<p class="text-on-surface-variant">Connecting raw production scans to long-term lifecycle management.</p>
+</div>
+<button class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed transition-transform group-hover:rotate-45 duration-500">
+<span class="material-symbols-outlined">north_east</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer / Contact Focus -->
+<footer class="py-24 px-8 bg-surface-container-lowest border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto text-center reveal">
+<h2 class="text-5xl font-headline font-black text-primary mb-8 tracking-tighter">Ready to secure your impact?</h2>
+<button class="bg-primary-fixed text-on-primary-fixed font-headline font-black px-12 py-5 rounded-xl hover:scale-105 transition-all shadow-[0_0_40px_rgba(0,220,229,0.2)]">
+                    Schedule Strategic Briefing
+                </button>
+<div class="mt-24 pt-12 border-t border-outline-variant/5 flex flex-col md:flex-row justify-between items-center text-on-tertiary-container font-label text-sm uppercase tracking-widest gap-8">
+<div>© 2024 Obsidian Lens Precision Systems</div>
+<div class="flex space-x-12">
+<a class="hover:text-primary-fixed transition-colors" href="#">Safety Protocols</a>
+<a class="hover:text-primary-fixed transition-colors" href="#">Ethics &amp; AI</a>
+<a class="hover:text-primary-fixed transition-colors" href="#">Legal</a>
+</div>
+<div class="flex space-x-4">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-fixed">share</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-fixed">terminal</span>
+</div>
+</div>
+</div>
+</footer>
+</main>
+</body></html>
