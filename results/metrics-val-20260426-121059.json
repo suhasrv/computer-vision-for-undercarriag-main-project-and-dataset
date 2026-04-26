@@ -1,0 +1,28 @@
+{
+  "model_path": "runs\\weights\\best.pt",
+  "data_yaml": "data.yaml",
+  "split": "val",
+  "counts": {
+    "train": 1421,
+    "val": 147,
+    "test": 71
+  },
+  "metrics": {
+    "mAP50-95": 0.24435841268018033,
+    "mAP50": 0.5049192686645858,
+    "precision_mean": 0.6039272379133424,
+    "recall_mean": 0.49319526627218935
+  },
+  "latency": {
+    "preprocess_ms": 1.8,
+    "inference_ms": 436.2,
+    "postprocess_ms": 7.8,
+    "total_ms": 445.8,
+    "notes": "Per-image timing reported by Ultralytics during validation run"
+  },
+  "environment": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python": "3.10.11"
+  },
+  "timestamp": "2026-04-26 12:12:12"
+}
