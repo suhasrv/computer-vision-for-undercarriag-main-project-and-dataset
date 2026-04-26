@@ -6,13 +6,13 @@ FastAPI backend for real-time detection and segmentation of undercarriage damage
 
 ### Features
 
-✅ **Instance Segmentation** - Detects and segments damage regions with precise pixel-level masks  
-✅ **Multiple Model Formats** - Support for PyTorch, TorchScript, and ONNX models  
-✅ **User Authentication** - JWT-based auth via Supabase  
-✅ **Image Storage** - Automatic upload to Supabase Storage with public URLs  
-✅ **Detection History** - Query past detections per user  
-✅ **Real-time API** - FastAPI with async support  
-✅ **Auto Documentation** - Swagger UI at `/docs`  
+**Instance Segmentation** - Detects and segments damage regions with precise pixel-level masks  
+**Multiple Model Formats** - Support for PyTorch, TorchScript, and ONNX models  
+**User Authentication** - JWT-based auth via Supabase  
+**Image Storage** - Automatic upload to Supabase Storage with public URLs  
+**Detection History** - Query past detections per user  
+**Real-time API** - FastAPI with async support  
+**Auto Documentation** - Swagger UI at `/docs`  
 
 ### Quick Start
 
