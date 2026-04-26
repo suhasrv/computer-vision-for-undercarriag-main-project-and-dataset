@@ -364,5 +364,3 @@ For issues or questions:
 4. Verify environment variables in .env
 
 ### License
-
-[Your License Here]
