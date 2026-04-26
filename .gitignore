@@ -1,0 +1,85 @@
+# Byte-compiled / caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+VENV/
+
+# Environment and secrets
+.env
+.env.local
+.env.*
+*.key
+*.pem
+
+# Editor / IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python packaging
+build/
+dist/
+*.egg-info
+pip-wheel-metadata/
+
+# Logs
+*.log
+
+# Model artifacts & large binaries
+weights/
+runs/
+results/
+models/*.pt
+models/*.pth
+models/*.pth.tar
+models/*.torchscript
+models/*.onnx
+*.pt
+*.pth
+*.ckpt
+*.torchscript
+*.onnx
+backend/yolov8m-seg.pt
+backend/yolov8m.torchscript
+**/weights/**
+
+# Dataset and large media
+data/
+datasets/
+dataset/
+train/
+valid/
+test/
+test/images/
+test/labels/
+train/images/
+train/labels/
+valid/images/
+valid/labels/
+*.mp4
+*.mov
+*.avi
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+
+# Notebook checkpoints
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+
+# Misc
+*.sqlite3
+*.db
