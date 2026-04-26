@@ -1,0 +1,16 @@
+%% Mermaid architecture diagram for README
+graph LR
+  A[Front-end (Static pages)] -->|Uploads image| B[API Gateway / FastAPI]
+  B --> C[Inference Service (YOLOv8)]
+  C --> D[Storage (Supabase Storage)]
+  C --> E[Detections DB (Supabase)]
+  B --> F[Auth (Supabase JWT)]
+  subgraph Monitoring
+    B --> G[Prometheus metrics]
+  end
+
+  style A fill:#f9f,stroke:#333,stroke-width:1px
+  style B fill:#bbf,stroke:#333,stroke-width:1px
+  style C fill:#bfb,stroke:#333,stroke-width:1px
+  style D fill:#ffd,stroke:#333,stroke-width:1px
+  style E fill:#ffd,stroke:#333,stroke-width:1px

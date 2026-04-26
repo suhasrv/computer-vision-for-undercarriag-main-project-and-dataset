@@ -1,22 +1,20 @@
-# Backend README
+# Undercarriage Damage Detection — Product Summary
 
-## YOLOv8 Undercarriage Detection API
+Automates vehicle undercarriage inspections by detecting corrosion and dents from images. Designed to reduce manual inspection time, lower maintenance costs, and help fleets meet safety and compliance checks.
 
-FastAPI backend for real-time detection and segmentation of undercarriage damage (corrosion and dents) using YOLOv8m-seg.
+**Why this matters**
+- Cuts manual inspection time and labor cost for fleet operators.
+- Improves detection consistency and early identification of corrosion/dents.
+- Helps satisfy safety audits and reduce unexpected maintenance downtime.
 
-### Features
+**Key results (run `scripts/compute_metrics.py` to reproduce)**
+- mAP (instance segmentation, val): TBD
+- Validation set size: TBD images
+- Latency (CPU) p50/p90/p95: TBD ms
 
-✅ **Instance Segmentation** - Detects and segments damage regions with precise pixel-level masks  
-✅ **Multiple Model Formats** - Support for PyTorch, TorchScript, and ONNX models  
-✅ **User Authentication** - JWT-based auth via Supabase  
-✅ **Image Storage** - Automatic upload to Supabase Storage with public URLs  
-✅ **Detection History** - Query past detections per user  
-✅ **Real-time API** - FastAPI with async support  
-✅ **Auto Documentation** - Swagger UI at `/docs`  
+For full technical details and deployment instructions see [backend/README.md](backend/README.md).
 
-### Quick Start
-
-#### 1. Setup Environment
+### Quick Start (developer)
 
 ```bash
 cd backend
