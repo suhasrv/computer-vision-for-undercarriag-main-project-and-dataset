@@ -8,9 +8,10 @@ Automates vehicle undercarriage inspections by detecting corrosion and dents fro
 - Helps satisfy safety audits and reduce unexpected maintenance downtime.
 
 **Key results (run `scripts/compute_metrics.py` to reproduce)**
-- mAP (instance segmentation, val): TBD
-- Validation set size: TBD images
-- Latency (CPU) p50/p90/p95: TBD ms
+**Key results (run `scripts/compute_metrics.py` to reproduce)**
+- mAP50-95 (instance segmentation, val): 0.244 (24.4%); mAP50: 0.505 (50.5%)
+- Validation set size: 147 images (train: 1,421; test: 71)
+- Latency (CPU, inference per image): ~436 ms/image (validation run). Run `scripts/compute_metrics.py --sample` to capture p50/p90/p95
 
 For full technical details and deployment instructions see [backend/README.md](backend/README.md).
 
